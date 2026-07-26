@@ -11,22 +11,21 @@
     .container { max-width: 480px; margin: 0 auto; background: #fff; border: 1px solid #ccc; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
 
     /* Encabezado Principal */
-    .header { background: linear-gradient(130deg, #800020, #4a0012); color: #fff; text-align: center; padding: 18px 10px; position: relative; }
+    .header { background: linear-gradient(130deg, #800020, #4a0012); color: #fff; text-align: center; padding: 18px 10px; }
     .header h1 { font-size: 26px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; }
     .header h2 { font-size: 16px; font-weight: 400; margin-top: 3px; letter-spacing: 2px; }
 
-    /* Tabla de partidos */
-    .table-container { width: 100%; border-collapse: collapse; }
-    .match-row { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e0e0e0; padding: 6px 8px; font-size: 12px; font-weight: bold; background: #fff; }
+    /* Lista de partidos */
+    .match-row { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e0e0e0; padding: 8px; font-size: 12px; font-weight: bold; background: #fff; }
     .match-row:nth-child(even) { background: #f9f9f9; }
 
-    .opt-col { width: 32px; text-align: center; font-size: 14px; font-weight: 900; color: #111; cursor: pointer; user-select: none; }
-    .btn-opt { width: 28px; height: 28px; border-radius: 4px; border: 1px solid #ccc; background: #fff; display: flex; align-items: center; justify-content: center; margin: 0 auto; transition: all 0.2s; }
-    .btn-opt.active { background: #800020; color: #fff; border-color: #800020; font-weight: bold; }
+    .opt-col { width: 32px; text-align: center; }
+    .btn-opt { width: 28px; height: 28px; border-radius: 4px; border: 1px solid #ccc; background: #fff; display: flex; align-items: center; justify-content: center; margin: 0 auto; cursor: pointer; font-weight: 900; }
+    .btn-opt.active { background: #800020; color: #fff; border-color: #800020; }
 
-    .team-col { display: flex; align-items: center; gap: 6px; flex: 1; font-size: 11px; text-transform: uppercase; letter-spacing: -0.2px; }
-    .team-col.left { justify-content: flex-start; padding-left: 4px; }
-    .team-col.right { justify-content: flex-end; text-align: right; padding-right: 4px; }
+    .team-col { display: flex; align-items: center; gap: 6px; flex: 1; font-size: 11px; text-transform: uppercase; }
+    .team-col.left { justify-content: flex-start; }
+    .team-col.right { justify-content: flex-end; text-align: right; }
     .team-img { width: 22px; height: 22px; object-fit: contain; }
 
     /* Barra de Info & Precio */
@@ -50,7 +49,7 @@
     .btn-primary { background: #2979ff; }
     .btn-dark { background: #424242; }
 
-    .btn-send { width: 100%; background: #25d366; color: #fff; padding: 14px; font-size: 18px; font-weight: 900; border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    .btn-send { width: 100%; background: #25d366; color: #fff; padding: 14px; font-size: 18px; font-weight: 900; border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
   </style>
 </head>
 <body>
@@ -62,7 +61,7 @@
     <h2>LOS AMIGOS</h2>
   </div>
 
-  <!-- Partidos -->
+  <!-- Contenedor donde se cargan los partidos -->
   <div id="matches-container"></div>
 
   <!-- Barra Precio / Cierre -->
@@ -92,17 +91,15 @@
     </div>
 
     <button class="btn-send" onclick="enviarWhatsApp()">
-      Enviar <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="22" height="22" alt="WA">
+      Enviar 📲
     </button>
   </div>
 </div>
 
 <script>
-  // CONFIGURACIÓN DE TU TELÉFONO
   const TELEFONO_ADMIN = "524772910289"; 
-  const PRECIO_QUIN IELA = 25;
+  const PRECIO_QUINIELA = 25;
 
-  // 8 PARTIDOS CON ESCUDOS (USANDO LOGOS REALES DE WIKIMEDIA/FOOTBALL LOGOS)
   const partidos = [
     { id: 1, local: "Cruzeiro", escL: "https://upload.wikimedia.org/wikipedia/commons/9/90/Cruzeiro_Esporte_Clube_%28logo%29.svg", visita: "Botafogo", escV: "https://upload.wikimedia.org/wikipedia/commons/5/52/Botafogo_de_Futebol_e_Regatas_logo.svg" },
     { id: 2, local: "Bahía", escL: "https://upload.wikimedia.org/wikipedia/en/2/22/Esporte_Clube_Bahia_logo.svg", visita: "Corinthians", escV: "https://upload.wikimedia.org/wikipedia/en/5/5a/Sport_Club_Corinthians_Paulista_logo.svg" },
