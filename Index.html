@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Quiniela Deportiva</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; margin: 0; padding: 15px; }
+    .container { max-width: 500px; margin: 0 auto; background: #1e1e1e; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+    h1 { text-align: center; color: #e63946; margin-bottom: 5px; }
+    .subtitle { text-align: center; font-size: 14px; color: #aaa; margin-bottom: 20px; }
+    
+    .match-row { display: flex; align-items: center; justify-content: space-between; background: #2a2a2a; padding: 10px; margin-bottom: 8px; border-radius: 6px; }
+    .teams { font-size: 13px; font-weight: bold; width: 60%; }
+    .options { display: flex; gap: 5px; }
+    .btn-opt { width: 35px; height: 35px; border: none; background: #444; color: #fff; font-weight: bold; border-radius: 5px; cursor: pointer; }
+    .btn-opt.active { background: #e63946; }
+
+    .input-group { margin-top: 20px; }
+    input[type="text"] { width: 100%; padding: 12px; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; box-sizing: border-box; font-size: 16px; }
+
+    .action-btns { display: flex; gap: 10px; margin-top: 15px; }
+    .btn-action { flex: 1; padding: 12px; border: none; font-weight: bold; border-radius: 5px; cursor: pointer; }
+    .btn-clear { background: #ff4d4d; color: white; }
+    .btn-random { background: #4a4a4a; color: white; }
+    .btn-send { width: 100%; background: #25d366; color: white; padding: 15px; font-size: 18px; font-weight: bold; border: none; border-radius: 5px; margin-top: 15px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>QUINIELEANDO</h1>
+  <div class="subtitle">Jornada 1 • Costo: $50 MXN</div>
+
+  <!-- Lista de Partidos -->
+  <div id="matches-list"></div>
+
+  <!-- Formulario -->
+  <div class="input-group">
+    <input type="text" id="userName" placeholder="Nombre completo del participante">
+  </div>
+
+  <div class="action-btns">
+    <button class="btn-action btn-clear" onclick="limpiar()">Limpiar</button>
+    <button class="btn-action btn-random" onclick="aleatorio()">Aleatorio</button>
+  </div>
+
+  <button class="btn-send" onclick="enviarWhatsApp()">Enviar por WhatsApp 📲</button>
+</div>
+
+<script>
+  // 1. CONFIGURA AQUÍ TU NÚMERO DE TELÉFONO (Con clave de país, ej: 521 para México)
+  const TELEFONO_ADMIN = "5214770000000"; 
+
+  // 2. EDITA AQUÍ TUS PARTIDOS DE LA SEMANA
+  const partidos = [
+    { id: 1, local: "América", visita: "Chivas" },
+    { id: 2, local: "Cruz Azul", visita: "Pumas" },
+    { id: 3, local: "Tigres", visita: "Rayados" },
+    { id: 4, local: "Toluca", visita: "Pachuca" },
+    { id: 5, local: "Santos", visita: "Atlas" }
+  ];
+
+  const selecciones = {};
+
+  // Renderizar la lista de partidos
+  function cargarPartidos() {
+    const container = document.getElementById("matches-list");
+    container.innerHTML = "";
+    partidos.forEach(p => {
+      container.innerHTML += `
+        <div class="match-row">
+          <div class="teams">${p.local} vs ${p.visita}</div>
+          <div class="options">
+            <button class="btn-opt" id="btn-${p.id}-L" onclick="seleccionar(${p.id}, 'L')">L</button>
+            <button class="btn-opt" id="btn-${p.id}-E" onclick="seleccionar(${p.id}, 'E')">E</button>
+            <button class="btn-opt" id="btn-${p.id}-V" onclick="seleccionar(${p.id}, 'V')">V</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  // Marcar opción
+  function seleccionar(partidoId, opcion) {
+    selecciones[partidoId] = opcion;
+    ['L', 'E', 'V'].forEach(opt => {
+      const btn = document.getElementById(`btn-${partidoId}-${opt}`);
+      if (opt === opcion) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  }
+
+  // Botón Limpiar
+  function limpiar() {
+    Object.keys(selecciones).forEach(key => delete selecciones[key]);
+    document.querySelectorAll('.btn-opt').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('userName').value = "";
+  }
+
+  // Botón Aleatorio
+  function aleatorio() {
+    const opciones = ['L', 'E', 'V'];
+    partidos.forEach(p => {
+      const randomOpt = opciones[Math.floor(Math.random() * opciones.length)];
+      seleccionar(p.id, randomOpt);
+    });
+  }
+
+  // Construir mensaje y abrir WhatsApp
+  function enviarWhatsApp() {
+    const nombre = document.getElementById("userName").value.trim();
+    if (!nombre) {
+      alert("Por favor escribe tu nombre antes de enviar.");
+      return;
+    }
+
+    if (Object.keys(selecciones).length < partidos.length) {
+      alert("Por favor selecciona tu pronóstico para todos los partidos.");
+      return;
+    }
+
+    let texto = `*NUEVA QUINIELA REGISTRADA*%0A`;
+    texto += `*Participante:* ${encodeURIComponent(nombre)}%0A%0A`;
+    texto += `*Pronósticos:*%0A`;
+
+    partidos.forEach(p => {
+      texto += `${p.local} vs ${p.visita}: *[ ${selecciones[p.id]} ]*%0A`;
+    });
+
+    // Abrir API de WhatsApp
+    const url = `https://wa.me/${TELEFONO_ADMIN}?text=${texto}`;
+    window.open(url, '_blank');
+  }
+
+  cargarPartidos();
+</script>
+
+</body>
+</html>
