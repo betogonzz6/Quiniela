@@ -92,7 +92,6 @@
   const TELEFONO_ADMIN = "524772910289"; 
   const PRECIO_QUINIELA = 25;
 
-  // IMÁGENES ESTABLES Y DIRECTAS (ESCUDOS 100% VISIBLES)
   const partidos = [
     { id: 1, local: "Cruzeiro", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/2022.png", visita: "Botafogo", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/1958.png" },
     { id: 2, local: "Bahía", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/3457.png", visita: "Corinthians", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/874.png" },
@@ -166,14 +165,14 @@
 
   function agregarOtra() {
     if (Object.keys(selecciones).length < partidos.length) {
-      alert("Por favor selecciona tu pronóstico para todos los partidos antes de agregar otra.");
+      alert("Por favor selecciona tu pronóstico para todos los 8 partidos.");
       return;
     }
     quinielasAcumuladas.push({...selecciones});
     selecciones = {};
     document.querySelectorAll('.btn-opt').forEach(btn => btn.classList.remove('active'));
     actualizarTotal();
-    alert(`¡Quiniela #${quinielasAcumuladas.length} agregada con éxito! Puedes llenar otra.`);
+    alert(`¡Quiniela #${quinielasAcumuladas.length} agregada! Puedes llenar otra.`);
   }
 
   function actualizarTotal() {
@@ -190,32 +189,37 @@
       return;
     }
 
-    let todasLasQuinielas = [...quinielasAcumuladas];
+    let listaQuinielas = [...quinielasAcumuladas];
     
-    // Si llenó la quiniela actual pero no presionó 'Agregar', la sumamos
+    // Si llenó la quiniela de la pantalla actual la agregamos
     if (Object.keys(selecciones).length === partidos.length) {
-      todasLasQuinielas.push({...selecciones});
-    } else if (todasLasQuinielas.length === 0) {
+      listaQuinielas.push({...selecciones});
+    } else if (listaQuinielas.length === 0) {
       alert("Por favor selecciona tu pronóstico para los 8 partidos.");
       return;
     }
 
-    let totalPagar = todasLasQuinielas.length * PRECIO_QUINIELA;
+    let totalPagar = listaQuinielas.length * PRECIO_QUINIELA;
 
-    let texto = `*QUINIELA LOS AMIGOS*\n`;
-    texto += `*Participante:* ${nombre}\n`;
-    texto += `*Total quinielas:* ${todasLasQuinielas.length}\n`;
-    texto += `*Total a pagar:* $${totalPagar}.00 MXN\n\n`;
+    let lineas = [];
+    lineas.push("QUINIELEANDO LOS AMIGOS");
+    lineas.push("Participante: " + nombre);
+    lineas.push("Total quinielas: " + listaQuinielas.length);
+    lineas.push("Total a pagar: $" + totalPagar + ".00 MXN");
+    lineas.push("");
 
-    todasLasQuinielas.forEach((q, index) => {
-      texto += `*--- QUINIELA #${index + 1} ---*\n`;
+    listaQuinielas.forEach((q, idx) => {
+      lineas.push("--- QUINIELA " + (idx + 1) + " ---");
       partidos.forEach(p => {
-        texto += `${p.local} vs ${p.visita}: *[ ${q[p.id]} ]*\n`;
+        let eleccion = q[p.id] || "-";
+        lineas.push(p.id + ". " + p.local + " vs " + p.visita + ": " + eleccion);
       });
-      texto += `\n`;
+      lineas.push("");
     });
 
-    const url = `https://wa.me/${TELEFONO_ADMIN}?text=${encodeURIComponent(texto)}`;
+    let mensajeTexto = lineas.join("\n");
+    let url = "https://api.whatsapp.com/send?phone=" + TELEFONO_ADMIN + "&text=" + encodeURIComponent(mensajeTexto);
+
     window.open(url, '_blank');
   }
 
