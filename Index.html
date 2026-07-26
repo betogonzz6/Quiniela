@@ -10,12 +10,12 @@
     
     .container { max-width: 480px; margin: 0 auto; background: #fff; border: 1px solid #ccc; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
 
-    /* Encabezado Principal */
+    /* Encabezado */
     .header { background: linear-gradient(130deg, #800020, #4a0012); color: #fff; text-align: center; padding: 18px 10px; }
     .header h1 { font-size: 26px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; }
     .header h2 { font-size: 16px; font-weight: 400; margin-top: 3px; letter-spacing: 2px; }
 
-    /* Lista de partidos */
+    /* Partidos */
     .match-row { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e0e0e0; padding: 8px; font-size: 12px; font-weight: bold; background: #fff; }
     .match-row:nth-child(even) { background: #f9f9f9; }
 
@@ -28,21 +28,18 @@
     .team-col.right { justify-content: flex-end; text-align: right; }
     .team-img { width: 22px; height: 22px; object-fit: contain; }
 
-    /* Barra de Info & Precio */
+    /* Informes / Precio */
     .info-bar { background: #800020; color: #fff; display: flex; justify-content: space-between; padding: 8px 12px; font-size: 13px; font-weight: bold; border-top: 2px solid #5a0016; }
     .price { color: #ffeb3b; }
-
-    /* Informes & Redes */
     .contact-bar { text-align: center; padding: 8px; font-size: 16px; font-weight: 900; color: #111; background: #fff; border-top: 1px solid #ddd; }
     .facebook-bar { background: #800020; color: #fff; text-align: center; padding: 6px; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; }
 
-    /* Sección Total y Formulario */
+    /* Formulario */
     .form-section { padding: 15px; text-align: center; background: #fafafa; }
     .total-title { font-size: 22px; font-weight: 900; margin-bottom: 10px; color: #222; }
 
     input[type="text"] { width: 100%; padding: 12px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 12px; text-align: center; }
 
-    /* Botones de Acción */
     .btn-group { display: flex; gap: 8px; margin-bottom: 12px; }
     .btn { flex: 1; padding: 10px; border: none; border-radius: 4px; font-weight: bold; color: #fff; cursor: pointer; font-size: 14px; }
     .btn-danger { background: #ff1744; }
@@ -55,22 +52,18 @@
 <body>
 
 <div class="container">
-  <!-- Encabezado -->
   <div class="header">
     <h1>QUINIELEANDO</h1>
     <h2>LOS AMIGOS</h2>
   </div>
 
-  <!-- Contenedor donde se cargan los partidos -->
   <div id="matches-container"></div>
 
-  <!-- Barra Precio / Cierre -->
   <div class="info-bar">
     <span>PRECIO: <span class="price">$25.00</span></span>
     <span>CIERRE: SÁBADO 11:50 P. M.</span>
   </div>
 
-  <!-- Informes -->
   <div class="contact-bar">
     INFORMES: +52 477 291 0289
   </div>
@@ -78,7 +71,6 @@
     <span>⚽ QUINIELA LOS AMIGOS</span>
   </div>
 
-  <!-- Formulario / Enviar -->
   <div class="form-section">
     <div class="total-title">TOTAL: <span id="total-price">$25.00</span></div>
     
@@ -100,15 +92,16 @@
   const TELEFONO_ADMIN = "524772910289"; 
   const PRECIO_QUINIELA = 25;
 
+  // IMÁGENES ESTABLES Y DIRECTAS (ESCUDOS 100% VISIBLES)
   const partidos = [
-    { id: 1, local: "Cruzeiro", escL: "https://upload.wikimedia.org/wikipedia/commons/9/90/Cruzeiro_Esporte_Clube_%28logo%29.svg", visita: "Botafogo", escV: "https://upload.wikimedia.org/wikipedia/commons/5/52/Botafogo_de_Futebol_e_Regatas_logo.svg" },
-    { id: 2, local: "Bahía", escL: "https://upload.wikimedia.org/wikipedia/en/2/22/Esporte_Clube_Bahia_logo.svg", visita: "Corinthians", escV: "https://upload.wikimedia.org/wikipedia/en/5/5a/Sport_Club_Corinthians_Paulista_logo.svg" },
-    { id: 3, local: "Flamengo", escL: "https://upload.wikimedia.org/wikipedia/commons/2/2e/Flamengo_braz_logo.svg", visita: "Sao Paulo", escV: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg" },
-    { id: 4, local: "Gremio", escL: "https://upload.wikimedia.org/wikipedia/en/f/f1/Gremio_logo.svg", visita: "Fluminense", escV: "https://upload.wikimedia.org/wikipedia/en/9/9e/Fluminense_fc_logo.svg" },
-    { id: 5, local: "Palmeiras", escL: "https://upload.wikimedia.org/wikipedia/commons/1/10/Palmeiras_logo.svg", visita: "Atl. Mineiro", escV: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Clube_Atl%C3%A9tico_Mineiro_logo.svg" },
-    { id: 6, local: "Necaxa", escL: "https://upload.wikimedia.org/wikipedia/commons/0/03/Club_Necaxa_logo.svg", visita: "Monterrey", escV: "https://upload.wikimedia.org/wikipedia/commons/3/30/CF_Monterrey_logo.svg" },
-    { id: 7, local: "Pachuca", escL: "https://upload.wikimedia.org/wikipedia/commons/e/e0/C.F._Pachuca_logo.svg", visita: "Querétaro", escV: "https://upload.wikimedia.org/wikipedia/commons/f/fb/Gallos_Blancos_Quer%C3%A9taro_logo.svg" },
-    { id: 8, local: "América", escL: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Club_America_logo.svg", visita: "Chivas", escV: "https://upload.wikimedia.org/wikipedia/commons/2/23/CD_Guadalajara_logo.svg" }
+    { id: 1, local: "Cruzeiro", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/2022.png", visita: "Botafogo", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/1958.png" },
+    { id: 2, local: "Bahía", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/3457.png", visita: "Corinthians", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/874.png" },
+    { id: 3, local: "Flamengo", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/819.png", visita: "Sao Paulo", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/2026.png" },
+    { id: 4, local: "Gremio", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/6273.png", visita: "Fluminense", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/2241.png" },
+    { id: 5, local: "Palmeiras", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/2029.png", visita: "Atl. Mineiro", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/2823.png" },
+    { id: 6, local: "Necaxa", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/228.png", visita: "Monterrey", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/227.png" },
+    { id: 7, local: "Pachuca", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/229.png", visita: "Querétaro", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/230.png" },
+    { id: 8, local: "América", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/221.png", visita: "Chivas", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/222.png" }
   ];
 
   let selecciones = {};
@@ -198,29 +191,31 @@
     }
 
     let todasLasQuinielas = [...quinielasAcumuladas];
+    
+    // Si llenó la quiniela actual pero no presionó 'Agregar', la sumamos
     if (Object.keys(selecciones).length === partidos.length) {
       todasLasQuinielas.push({...selecciones});
     } else if (todasLasQuinielas.length === 0) {
-      alert("Por favor selecciona tu pronóstico para todos los 8 partidos.");
+      alert("Por favor selecciona tu pronóstico para los 8 partidos.");
       return;
     }
 
     let totalPagar = todasLasQuinielas.length * PRECIO_QUINIELA;
 
-    let texto = `*QUINIELA LOS AMIGOS*%0A`;
-    texto += `*Participante:* ${encodeURIComponent(nombre)}%0A`;
-    texto += `*Total quinielas:* ${todasLasQuinielas.length}%0A`;
-    texto += `*Total a pagar:* $${totalPagar}.00 MXN%0A%0A`;
+    let texto = `*QUINIELA LOS AMIGOS*\n`;
+    texto += `*Participante:* ${nombre}\n`;
+    texto += `*Total quinielas:* ${todasLasQuinielas.length}\n`;
+    texto += `*Total a pagar:* $${totalPagar}.00 MXN\n\n`;
 
     todasLasQuinielas.forEach((q, index) => {
-      texto += `*--- QUINIELA #${index + 1} ---*%0A`;
+      texto += `*--- QUINIELA #${index + 1} ---*\n`;
       partidos.forEach(p => {
-        texto += `${p.local} vs ${p.visita}: *[ ${q[p.id]} ]*%0A`;
+        texto += `${p.local} vs ${p.visita}: *[ ${q[p.id]} ]*\n`;
       });
-      texto += `%0A`;
+      texto += `\n`;
     });
 
-    const url = `https://wa.me/${TELEFONO_ADMIN}?text=${texto}`;
+    const url = `https://wa.me/${TELEFONO_ADMIN}?text=${encodeURIComponent(texto)}`;
     window.open(url, '_blank');
   }
 
