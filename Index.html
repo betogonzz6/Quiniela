@@ -28,9 +28,9 @@
     .team-col.right { justify-content: flex-end; text-align: right; }
     .team-img { width: 22px; height: 22px; object-fit: contain; }
 
-    /* Informes / Precio */
+    /* Informes / Precio / Promoción */
     .info-bar { background: #800020; color: #fff; display: flex; justify-content: space-between; padding: 8px 12px; font-size: 13px; font-weight: bold; border-top: 2px solid #5a0016; }
-    .price { color: #ffeb3b; }
+    .promo-bar { background: #ffeb3b; color: #800020; text-align: center; padding: 6px; font-size: 13px; font-weight: 900; letter-spacing: 0.5px; }
     .contact-bar { text-align: center; padding: 8px; font-size: 16px; font-weight: 900; color: #111; background: #fff; border-top: 1px solid #ddd; }
     .facebook-bar { background: #800020; color: #fff; text-align: center; padding: 6px; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; }
 
@@ -60,12 +60,16 @@
   <div id="matches-container"></div>
 
   <div class="info-bar">
-    <span>PRECIO: <span class="price">$25.00</span></span>
-    <span>CIERRE: SÁBADO 11:50 P. M.</span>
+    <span>PRECIO: <span style="color:#ffeb3b">$25.00</span></span>
+    <span>CIERRE: VIERNES 6:50 P. M.</span>
+  </div>
+
+  <div class="promo-bar">
+    🔥 PROMOCIÓN: 3 QUINIELAS POR $60 MXN 🔥
   </div>
 
   <div class="contact-bar">
-    INFORMES: +52 477 291 0289
+    INFORMES: +52 442 863 9124
   </div>
   <div class="facebook-bar">
     <span>⚽ QUINIELA LOS AMIGOS</span>
@@ -89,18 +93,19 @@
 </div>
 
 <script>
-  const TELEFONO_ADMIN = "524772910289"; 
-  const PRECIO_QUINIELA = 25;
+  const TELEFONO_ADMIN = "524428639124"; 
 
+  // 9 PARTIDOS DE TU LISTA CON SUS ESCUDOS
   const partidos = [
-    { id: 1, local: "Cruzeiro", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/2022.png", visita: "Botafogo", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/1958.png" },
-    { id: 2, local: "Bahía", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/3457.png", visita: "Corinthians", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/874.png" },
-    { id: 3, local: "Flamengo", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/819.png", visita: "Sao Paulo", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/2026.png" },
-    { id: 4, local: "Gremio", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/6273.png", visita: "Fluminense", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/2241.png" },
-    { id: 5, local: "Palmeiras", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/2029.png", visita: "Atl. Mineiro", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/2823.png" },
-    { id: 6, local: "Necaxa", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/228.png", visita: "Monterrey", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/227.png" },
-    { id: 7, local: "Pachuca", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/229.png", visita: "Querétaro", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/230.png" },
-    { id: 8, local: "América", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/221.png", visita: "Chivas", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/222.png" }
+    { id: 1, local: "Puebla", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/226.png", visita: "Chivas", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/222.png" },
+    { id: 2, local: "Atl. San Luis", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/18873.png", visita: "Tijuana", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/10324.png" },
+    { id: 3, local: "FC Juárez", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/17210.png", visita: "Pumas UNAM", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/233.png" },
+    { id: 4, local: "América", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/221.png", visita: "Santos Laguna", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/231.png" },
+    { id: 5, local: "Toluca", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/234.png", visita: "Necaxa", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/228.png" },
+    { id: 6, local: "Querétaro", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/230.png", visita: "Tigres UANL", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/232.png" },
+    { id: 7, local: "León", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/3561.png", visita: "Pachuca", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/229.png" },
+    { id: 8, local: "Atlas", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/223.png", visita: "Monterrey", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/227.png" },
+    { id: 9, local: "Cruz Azul", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/224.png", visita: "Atlante FC", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/220.png" }
   ];
 
   let selecciones = {};
@@ -165,7 +170,7 @@
 
   function agregarOtra() {
     if (Object.keys(selecciones).length < partidos.length) {
-      alert("Por favor selecciona tu pronóstico para todos los 8 partidos.");
+      alert("Por favor selecciona tu pronóstico para todos los 9 partidos.");
       return;
     }
     quinielasAcumuladas.push({...selecciones});
@@ -175,10 +180,18 @@
     alert(`¡Quiniela #${quinielasAcumuladas.length} agregada! Puedes llenar otra.`);
   }
 
+  // CÁLCULO DE PRECIO CON LA PROMOCIÓN (3 x $60)
+  function calcularTotalPrecio(cantidad) {
+    if (cantidad <= 0) return 25;
+    let trios = Math.floor(cantidad / 3);
+    let sueltas = cantidad % 3;
+    return (trios * 60) + (sueltas * 25);
+  }
+
   function actualizarTotal() {
     let cantidad = quinielasAcumuladas.length + (Object.keys(selecciones).length > 0 ? 1 : 0);
     if (cantidad === 0) cantidad = 1;
-    const total = cantidad * PRECIO_QUINIELA;
+    const total = calcularTotalPrecio(cantidad);
     document.getElementById("total-price").innerText = `$${total}.00`;
   }
 
@@ -191,15 +204,14 @@
 
     let listaQuinielas = [...quinielasAcumuladas];
     
-    // Si llenó la quiniela de la pantalla actual la agregamos
     if (Object.keys(selecciones).length === partidos.length) {
       listaQuinielas.push({...selecciones});
     } else if (listaQuinielas.length === 0) {
-      alert("Por favor selecciona tu pronóstico para los 8 partidos.");
+      alert("Por favor selecciona tu pronóstico para los 9 partidos.");
       return;
     }
 
-    let totalPagar = listaQuinielas.length * PRECIO_QUINIELA;
+    let totalPagar = calcularTotalPrecio(listaQuinielas.length);
 
     let lineas = [];
     lineas.push("QUINIELEANDO LOS AMIGOS");
