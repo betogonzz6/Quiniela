@@ -95,7 +95,7 @@
 <script>
   const TELEFONO_ADMIN = "524428639124"; 
 
-  // 9 PARTIDOS DE TU LISTA CON SUS ESCUDOS
+  // ESCUDOS EXACTOS CORREGIDOS
   const partidos = [
     { id: 1, local: "Puebla", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/226.png", visita: "Chivas", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/222.png" },
     { id: 2, local: "Atl. San Luis", escL: "https://a.espncdn.com/i/teamlogos/soccer/500/18873.png", visita: "Tijuana", escV: "https://a.espncdn.com/i/teamlogos/soccer/500/10324.png" },
@@ -180,7 +180,6 @@
     alert(`¡Quiniela #${quinielasAcumuladas.length} agregada! Puedes llenar otra.`);
   }
 
-  // CÁLCULO DE PRECIO CON LA PROMOCIÓN (3 x $60)
   function calcularTotalPrecio(cantidad) {
     if (cantidad <= 0) return 25;
     let trios = Math.floor(cantidad / 3);
